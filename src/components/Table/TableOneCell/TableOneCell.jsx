@@ -1,5 +1,6 @@
-import { connect } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
+
 import s from './TableOneCell.module.css';
 import selectors from 'redux/selectors';
 import actions from 'redux/actions';
@@ -8,7 +9,6 @@ import operations from 'redux/operations';
 function TableOneCell({ data, summary, index, rowId, tableBodyData, highlights, rowSumHover }) {
   const dispatch = useDispatch();
   const classes = summary ? [s.summary] : [s.cell];
-  // const color = rowSumHover === rowId ? 'grey' : 'black';
   if (highlights) classes.push(s.highlight);
   if (rowSumHover === rowId) classes.push(s.rowId)
 
@@ -35,6 +35,20 @@ function TableOneCell({ data, summary, index, rowId, tableBodyData, highlights, 
   const sum = summary ? calculate(index) : (rowSumHover === rowId ? data.percent : data.amount);
 
   return <td style={{ '--percent': sum }} className={classes.join(' ')} onMouseOver={handleHover} onMouseOut={handleOutHover} onClick={handleClick}>{sum}</td>
+}
+
+TableOneCell.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    percent: PropTypes.string,
+    amount: PropTypes.number.isRequired,
+  }).isRequired,
+  summary: PropTypes.bool,
+  index: PropTypes.number,
+  rowId: PropTypes.string,
+  tableBodyData: PropTypes.array.isRequired,
+  highlights: PropTypes.bool,
+  rowSumHover: PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({

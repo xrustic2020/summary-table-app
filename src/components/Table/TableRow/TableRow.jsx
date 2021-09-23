@@ -1,7 +1,9 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import TableSummaryColumn from 'components/Table/TableSummaryColumn';
 import TableOneCell from 'components/Table/TableOneCell';
+
 import s from './TableRow.module.css';
 import selectors from 'redux/selectors';
 
@@ -23,6 +25,9 @@ function TableRow({ oneRowData, id, floorAmounts, tableFooterData }) {
 
 TableRow.propTypes = {
   oneRowData: PropTypes.array.isRequired,
+  id: PropTypes.string,
+  floorAmounts: PropTypes.array,
+  tableFooterData: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => ({

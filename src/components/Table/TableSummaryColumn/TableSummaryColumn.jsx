@@ -1,8 +1,9 @@
-import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import s from './TableSummaryColumn.module.css';
-import selectors from 'redux/selectors';
 import actions from 'redux/actions';
+
 import DeleteRowButton from 'components/DeleteRowButton';
 import AddedRowButton from 'components/AddedRowButton'
 
@@ -30,9 +31,11 @@ function TableSummaryColumn({ data, id, isAddedRowButton, isDeleteRowButton }) {
   </td>
 }
 
-const mapStateToProps = (state) => ({
-  tableBodyData: selectors.getTableBodyData(state),
+TableSummaryColumn.propTypes = {
+  oneRowData: PropTypes.array,
+  id: PropTypes.string,
+  isAddedRowButton: PropTypes.bool,
+  isDeleteRowButton: PropTypes.bool,
+}
 
-})
-
-export default connect(mapStateToProps)(TableSummaryColumn);
+export default TableSummaryColumn;

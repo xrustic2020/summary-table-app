@@ -2,7 +2,6 @@
   overflow: auto;
   width: calc(100% - 50px);
   padding-right: 50px;
-  /* margin: 0 50px 0 auto; */
 }
 
 .table {

@@ -97,21 +97,14 @@ const findFloorAmounts = (data) => (dispatch, getState) => {
   function getResultAmountsArray() {
     if (startIndex >= 0) {
       const endIndex = (startIndex + highlights) <= sortedArr.length ? (startIndex + highlights) : sortedArr.length;
-
-      // console.log('endIndex', endIndex);
       if (endIndex === sortedArr.length) return sortedArr.slice(highlights * -1);
       return sortedArr.slice(startIndex, endIndex);
     } else {
-      // console.log('startIndex in "0"')
       const endIndex = highlights <= sortedArr.length ? highlights : sortedArr.length;
-      // console.log('endIndex', endIndex);
       return sortedArr.slice(0, endIndex);
     }
   }
-
   const amounts = getResultAmountsArray();
-
-  // console.log('amounts', amounts)
 
   try {
     dispatch(findFloorAmountsSuccess(amounts))

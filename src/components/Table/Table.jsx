@@ -1,16 +1,18 @@
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import s from './Table.module.css';
 import selectors from 'redux/selectors';
 
 import TableRow from 'components/Table/TableRow';
 
-function Table({ tableBodyData, tableFooterData }) {
+function Table({ tableBodyData, tableFooterData, tableParams }) {
   return <div className={s.scrollWrapper}>
 
     <table className={s.table}>
       <thead className={s.visuallyHidden}>
         <tr>
-          <th>amount</th>
+          <th colSpan={tableParams.columns}>amount</th>
         </tr>
       </thead>
       <tbody>
@@ -23,9 +25,20 @@ function Table({ tableBodyData, tableFooterData }) {
   </div>
 }
 
+Table.propTypes = {
+  tableBodyData: PropTypes.array.isRequired,
+  tableFooterData: PropTypes.array.isRequired,
+  tableParams: PropTypes.shape({
+    rows: PropTypes.number.isRequired,
+    columns: PropTypes.number.isRequired,
+    highlights: PropTypes.number.isRequired,
+  }).isRequired,
+}
+
 const mapStateToProps = (state) => ({
   tableBodyData: selectors.getTableBodyData(state),
   tableFooterData: selectors.getTableFooterData(state),
+  tableParams: selectors.getTableParams(state),
 })
 
 

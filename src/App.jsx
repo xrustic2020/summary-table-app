@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import Container from 'components/Container';
 import TableCreationForm from 'components/TableCreationForm';
 import Table from 'components/Table'
@@ -21,6 +23,10 @@ function App({ table }) {
 
     </Container>
   );
+}
+
+App.propTypes = {
+  table: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => ({
