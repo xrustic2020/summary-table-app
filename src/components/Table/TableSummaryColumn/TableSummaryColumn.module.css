@@ -1,0 +1,35 @@
+.sumCell {
+  background-color: rgb(125, 255, 153);
+}
+
+/* .sumCell .footerCell {
+  background-color: rgb(125, 255, 153);
+} */
+
+.footerCell {
+  padding: 0;
+  border: 0;
+  /* position: relative; */
+  /* content: "";
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 50px; */
+  /* background-color: rgb(125, 160, 255); */
+}
+
+.footerCell:last-child {
+  /* background-color: rgb(125, 160, 255); */
+}
+
+/* .buttonBox {
+  display: block;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 20px;
+  background-color: rgb(255, 0, 0);
+  z-index: 100;
+} */
