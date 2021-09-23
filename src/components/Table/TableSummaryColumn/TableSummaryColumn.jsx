@@ -2,19 +2,16 @@ import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import s from './TableSummaryColumn.module.css';
 import selectors from 'redux/selectors';
-// import operations from 'redux/operations';
 import actions from 'redux/actions';
 import DeleteRowButton from 'components/DeleteRowButton';
 import AddedRowButton from 'components/AddedRowButton'
 
-function TableSummaryColumn({ data, id, isAddedRowButton, isDeleteRowButton, tableBodyData }) {
+function TableSummaryColumn({ data, id, isAddedRowButton, isDeleteRowButton }) {
   const dispatch = useDispatch();
   const sum = data.reduce((acc, el) => acc + el.amount, 0);
   const isButtonsCell = isAddedRowButton || isDeleteRowButton;
   const classes = isButtonsCell ? [s.footerCell] : [s.sumCell];
-
-  // console.log('data TabSumCol', data);
-  // console.log('TubSumCol id', id);
+  if (isAddedRowButton) classes.push(s.right);
 
   const handleMouseOver = () => {
     if (isButtonsCell) return;
@@ -35,6 +32,7 @@ function TableSummaryColumn({ data, id, isAddedRowButton, isDeleteRowButton, tab
 
 const mapStateToProps = (state) => ({
   tableBodyData: selectors.getTableBodyData(state),
+
 })
 
 export default connect(mapStateToProps)(TableSummaryColumn);

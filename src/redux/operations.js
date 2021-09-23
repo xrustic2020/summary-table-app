@@ -13,8 +13,45 @@ const {
   findFloorAmountsRequest,
   findFloorAmountsSuccess,
   findFloorAmountsError,
+
+  addedTableRowRequest,
+  addedTableRowSuccess,
+  addedTableRowError,
 } = actions;
 
+const generateTableRow = (columns) => {
+  const id = uuidv4().slice(30);
+  const element = { key: id, rows: [] };
+  let sum = 0;
+  for (let i = 0; i < columns; i += 1) {
+    const randomNumber = Math.random() * (999 - 100) + 100;
+    const cell = { id: uuidv4(), amount: Number.parseInt(randomNumber) };
+    sum += cell.amount;
+    element.rows.push(cell);
+  }
+
+  element.sum = sum;
+
+  element.rows.forEach(cell => {
+    const percent = Math.round((cell.amount / sum) * 100);
+    cell.percent = `${percent}%`;
+  })
+
+  return element;
+}
+
+const generateOneRow = () => (dispatch, getState) => {
+  dispatch(addedTableRowRequest());
+
+  try {
+    const columns = getState().table.params.columns;
+    const element = generateTableRow(columns);
+
+    dispatch(addedTableRowSuccess(element));
+  } catch (error) {
+    dispatch(addedTableRowError(error));
+  }
+}
 
 const generateTableData = ({ rows, columns }) => dispatch => {
   dispatch(generateTableDataRequest());
@@ -23,28 +60,11 @@ const generateTableData = ({ rows, columns }) => dispatch => {
 
   try {
     for (let i = 0; i < (rows + 1); i += 1) {
-      const id = uuidv4().slice(30);
-      data[i] = { key: id, rows: [] };
-      const target = data[i].rows;
-
-      for (let j = 0; j < columns; j += 1) {
-        const randomNumber = Math.random() * (999 - 100) + 100;
-        const cell = { id: uuidv4(), amount: Number.parseInt(randomNumber) };
-        target.push(cell);
-      }
+      const row = generateTableRow(columns);
+      data.push(row);
     }
 
-    const updatedData = data.map(el => {
-      const sum = el.rows.reduce((acc, cell) => acc += cell.amount, 0)
-      el.rows.forEach(cell => {
-        const percent = Math.round((cell.amount / sum) * 100);
-        cell.percent = `${percent}%`;
-      })
-
-      return { ...el, sum }
-    })
-
-    dispatch(generateTableDataSuccess(updatedData));
+    dispatch(generateTableDataSuccess(data));
   } catch (error) {
     dispatch(generateTableDataError(error));
   }
@@ -73,7 +93,6 @@ const findFloorAmounts = (data) => (dispatch, getState) => {
   const index = sortedArr.indexOf(data);
   sortedArr.splice(index, 1);
   const startIndex = index - Math.floor((highlights / 2));
-  // console.log('startIndex', startIndex);
 
   function getResultAmountsArray() {
     if (startIndex >= 0) {
@@ -102,6 +121,7 @@ const findFloorAmounts = (data) => (dispatch, getState) => {
 }
 
 const operations = {
+  generateOneRow,
   generateTableData,
   updateCellData,
   findFloorAmounts,

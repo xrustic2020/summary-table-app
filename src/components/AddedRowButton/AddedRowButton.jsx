@@ -1,19 +1,19 @@
 import { useDispatch } from 'react-redux';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-// import s from './AddedRowButton.module.css';
-import actions from 'redux/actions';
+import Button from '@mui/material/Button';
+import AddedIcon from '@mui/icons-material/AddToPhotos';
+import s from './AddedRowButton.module.css';
+import operations from 'redux/operations';
 
 const AddedRowButton = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(actions.deleteRow())
+    dispatch(operations.generateOneRow())
   }
   return <>
-    <IconButton aria-label="delete" size="small" onClick={handleClick}>
-      <DeleteIcon fontSize="small" />
-    </IconButton>
+    <Button variant="contained" onClick={handleClick} className={s.button} startIcon={<AddedIcon color="white" />}>
+      Add
+    </Button>
   </>
 }
 

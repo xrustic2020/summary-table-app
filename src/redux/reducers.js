@@ -19,9 +19,9 @@ const {
   findFloorAmountsSuccess,
   findFloorAmountsError,
 
-  replaceAmountPercentRequest,
-  replaceAmountPercentSuccess,
-  replaceAmountPercentError,
+  addedTableRowRequest,
+  addedTableRowSuccess,
+  addedTableRowError,
 } = actions;
 
 const params = createReducer({}, {
@@ -38,6 +38,7 @@ const data = createReducer([], {
     })
   },
   [deleteRow]: (state, { payload }) => state.filter(el => el.key !== payload),
+  [addedTableRowSuccess]: (state, { payload }) => [...state, payload]
 });
 
 const hoverNumber = createReducer(null, {
@@ -52,8 +53,6 @@ const floorAmounts = createReducer([], {
   [findFloorAmountsSuccess]: (_, { payload }) => payload,
 })
 
-
-
 const loading = createReducer(false, {
   [generateTableDataRequest]: () => true,
   [generateTableDataSuccess]: () => false,
@@ -67,9 +66,9 @@ const loading = createReducer(false, {
   [findFloorAmountsSuccess]: () => false,
   [findFloorAmountsError]: () => false,
 
-  [replaceAmountPercentRequest]: () => true,
-  [replaceAmountPercentSuccess]: () => false,
-  [replaceAmountPercentError]: () => false,
+  [addedTableRowRequest]: () => true,
+  [addedTableRowSuccess]: () => false,
+  [addedTableRowError]: () => false,
 });
 
 const contactsReducer = combineReducers({

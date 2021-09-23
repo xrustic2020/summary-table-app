@@ -8,6 +8,10 @@ const setRowSumHoverId = createAction('setRowSumHoverId');
 
 const deleteRow = createAction('deleteRow');
 
+const addedTableRowRequest = createAction('addedTableRowRequest');
+const addedTableRowSuccess = createAction('addedTableRowSuccess');
+const addedTableRowError = createAction('addedTableRowError');
+
 const generateTableDataRequest = createAction('generateTableDataRequest');
 const generateTableDataSuccess = createAction('generateTableDataSuccess');
 const generateTableDataError = createAction('generateTableDataError');
@@ -37,6 +41,10 @@ const actions = {
   findFloorAmountsRequest,
   findFloorAmountsSuccess,
   findFloorAmountsError,
+
+  addedTableRowRequest,
+  addedTableRowSuccess,
+  addedTableRowError,
 };
 
 export default actions;
