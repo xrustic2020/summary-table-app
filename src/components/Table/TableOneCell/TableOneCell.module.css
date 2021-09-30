@@ -2,10 +2,6 @@
   --percent: 10%;
 }
 
-.summary {
-  background-color: rgb(125, 255, 153);
-}
-
 .cell {
   position: relative;
 }
@@ -21,6 +17,10 @@
 
 .rowId {
   background-color: rgba(0, 55, 255, 0.05);
+}
+
+.summary {
+  background-color: rgb(125, 255, 153);
 }
 
 .rowId::after {
