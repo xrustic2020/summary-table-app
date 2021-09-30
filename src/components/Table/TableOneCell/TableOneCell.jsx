@@ -1,40 +1,56 @@
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
 
 import s from './TableOneCell.module.css';
 import selectors from 'redux/selectors';
 import actions from 'redux/actions';
 import operations from 'redux/operations';
 
-function TableOneCell({ data, summary, index, rowId, tableBodyData, highlights, rowSumHover }) {
+function TableOneCell({ data, isSummary, index, rowId, highlights }) {
   const dispatch = useDispatch();
-  const classes = summary ? [s.summary] : [s.cell];
-  if (highlights) classes.push(s.highlight);
-  if (rowSumHover === rowId) classes.push(s.rowId)
-
-  const calculate = (index) => {
-    const oneColumn = tableBodyData.map(el => el.rows[index]);
-    return oneColumn.reduce((acc, el) => acc += el.amount, 0);
-  }
+  const tableBodyData = useSelector(selectors.getTableBodyData);
+  const rowSumHover = useSelector(selectors.getRowHoverId);
 
   const handleClick = () => {
     dispatch(operations.updateCellData(data))
   }
 
   const handleHover = (evt) => {
-    if (summary) return;
+    if (isSummary) return;
     const amount = evt.target.innerHTML;
     dispatch(actions.setFloorAmount(amount))
     dispatch(operations.findFloorAmounts(data))
   }
 
   const handleOutHover = () => {
-    if (summary) return;
+    if (isSummary) return;
     dispatch(actions.setFloorAmount(null))
   }
-  const sum = summary ? calculate(index) : (rowSumHover === rowId ? data.percent : data.amount);
 
-  return <td style={{ '--percent': sum }} className={classes.join(' ')} onMouseOver={handleHover} onMouseOut={handleOutHover} onClick={handleClick}>{sum}</td>
+  const calculate = useMemo(() => (index) => {
+    const oneColumn = tableBodyData.map(el => el.rows[index]);
+    return oneColumn.reduce((acc, el) => acc += el.amount, 0);
+  }, [tableBodyData])
+
+  const classes = () => {
+    const classes = isSummary ? [s.summary] : [s.cell];
+    if (highlights) classes.push(s.highlight);
+    if (rowSumHover === rowId) classes.push(s.rowId);
+    return classes.join(' ');
+  }
+
+  const sum = isSummary
+    ? calculate(index)
+    : (rowSumHover === rowId ? data.percent : data.amount);
+
+  return <td
+    style={{ '--percent': sum }}
+    className={classes()}
+    onMouseOver={handleHover}
+    onMouseOut={handleOutHover}
+    onClick={handleClick}>{sum}
+  </td>
 }
 
 TableOneCell.propTypes = {
@@ -43,17 +59,10 @@ TableOneCell.propTypes = {
     percent: PropTypes.string,
     amount: PropTypes.number.isRequired,
   }).isRequired,
-  summary: PropTypes.bool,
+  isSummary: PropTypes.bool,
   index: PropTypes.number,
   rowId: PropTypes.string,
-  tableBodyData: PropTypes.array.isRequired,
   highlights: PropTypes.bool,
-  rowSumHover: PropTypes.string,
 }
 
-const mapStateToProps = (state) => ({
-  tableBodyData: selectors.getTableBodyData(state),
-  rowSumHover: selectors.getRowHoverId(state),
-})
-
-export default connect(mapStateToProps)(TableOneCell);
+export default TableOneCell;

@@ -1,5 +1,4 @@
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import Container from 'components/Container';
 import TableCreationForm from 'components/TableCreationForm';
@@ -8,7 +7,8 @@ import Table from 'components/Table'
 import selectors from './redux/selectors';
 
 
-function App({ table }) {
+function App() {
+  const table = useSelector(selectors.getTableData);
   return (
     <Container>
       <header>
@@ -25,12 +25,4 @@ function App({ table }) {
   );
 }
 
-App.propTypes = {
-  table: PropTypes.array.isRequired,
-}
-
-const mapStateToProps = (state) => ({
-  table: selectors.getTableData(state)
-})
-
-export default connect(mapStateToProps)(App);
+export default App;

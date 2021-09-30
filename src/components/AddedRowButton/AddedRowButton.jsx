@@ -1,21 +1,22 @@
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import Button from '@mui/material/Button';
 import AddedIcon from '@mui/icons-material/AddToPhotos';
-import s from './AddedRowButton.module.css';
+import IconButton from '@mui/material/IconButton';
 
 import operations from 'redux/operations';
 
-const AddedRowButton = () => {
+function AddedRowButton() {
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     dispatch(operations.generateOneRow())
-  }
+  }, [dispatch]);
+
   return <>
-    <Button variant="contained" onClick={handleClick} className={s.button} startIcon={<AddedIcon color="white" />}>
-      Add
-    </Button>
+    <IconButton onClick={handleClick} color="primary" aria-label="added row">
+      <AddedIcon />
+    </IconButton>
   </>
 }
 

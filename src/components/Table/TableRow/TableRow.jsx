@@ -1,24 +1,32 @@
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import TableSummaryColumn from 'components/Table/TableSummaryColumn';
+import SummaryCell from 'components/Table/SummaryCell';
 import TableOneCell from 'components/Table/TableOneCell';
 
-import s from './TableRow.module.css';
 import selectors from 'redux/selectors';
 
 
-function TableRow({ oneRowData, id, floorAmounts, tableFooterData }) {
-  const summaryCell = tableFooterData[0].rows === oneRowData;
+function TableRow({ oneRowData, id }) {
+  const floorAmounts = useSelector(selectors.getFloorAmounts);
+  const tableFooterData = useSelector(selectors.getTableFooterData);
+  const isSummaryCell = tableFooterData === oneRowData;
 
-  return <tr className={s.relative}>
-    {oneRowData.map((el, index) => <TableOneCell key={el.id} rowId={id} highlights={floorAmounts.some(e => e.id === el.id)} index={index} data={el} summary={summaryCell} />)}
-    {!summaryCell && <>
-      <TableSummaryColumn id={id} data={oneRowData} />
-      <TableSummaryColumn id={id} data={oneRowData} isDeleteRowButton={true} />
-    </>}
-    {summaryCell && <>
-      <TableSummaryColumn id={id} data={oneRowData} isAddedRowButton={summaryCell} />
+  return <tr>
+    {oneRowData.map((el, index) =>
+      <TableOneCell
+        key={el.id}
+        rowId={id}
+        highlights={floorAmounts.some(e => e.id === el.id)}
+        index={index}
+        data={el}
+        isSummary={isSummaryCell}
+      />)}
+
+
+    {isSummaryCell ? <SummaryCell id={id} data={oneRowData} isAddedRowButton={isSummaryCell} /> : <>
+      <SummaryCell id={id} data={oneRowData} />
+      <SummaryCell id={id} data={oneRowData} isDeleteRowButton />
     </>}
   </tr>
 }
@@ -26,14 +34,6 @@ function TableRow({ oneRowData, id, floorAmounts, tableFooterData }) {
 TableRow.propTypes = {
   oneRowData: PropTypes.array.isRequired,
   id: PropTypes.string,
-  floorAmounts: PropTypes.array,
-  tableFooterData: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  floorAmounts: selectors.getFloorAmounts(state),
-  tableFooterData: selectors.getTableFooterData(state),
-})
-
-
-export default connect(mapStateToProps)(TableRow);
+export default TableRow;

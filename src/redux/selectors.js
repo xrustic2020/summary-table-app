@@ -9,16 +9,16 @@ const getTableBodyData = createSelector(
 
 const getTableFooterData = createSelector(
   [getTableData],
-  (data) => data.slice(-1)
+  (data) => data.slice(-1)[0].rows
 );
 
 const getTableParams = state => state.table.params;
 
-const getHoverNumber = (state) => state.hoverNumber;
+const getHoverNumber = state => state.hoverNumber;
 
-const getRowHoverId = (state) => state.rowHoverId;
+const getRowHoverId = state => state.rowHoverId;
 
-const getFloorAmounts = (state) => state.floorAmounts;
+const getFloorAmounts = state => state.floorAmounts;
 
 
 const selectors = {

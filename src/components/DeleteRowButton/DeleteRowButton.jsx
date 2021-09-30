@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,12 +7,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import actions from 'redux/actions';
 
-const DeleteRowButton = ({ id }) => {
+function DeleteRowButton({ id }) {
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     dispatch(actions.deleteRow(id))
-  }
+  }, [dispatch, id]);
+
   return <>
     <IconButton aria-label="delete" size="small" onClick={handleClick}>
       <DeleteIcon fontSize="small" />

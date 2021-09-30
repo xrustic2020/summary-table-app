@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import operations from 'redux/operations';
@@ -26,23 +26,43 @@ function TableCreationForm() {
     dispatch(operations.generateTableData(data));
   }
 
+  const handleChange = useCallback((evt) => {
+    const { name, value } = evt.target;
+    switch (name) {
+      case 'rows':
+        setRows(value);
+        break;
+
+      case 'columns':
+        setColumns(value);
+        break;
+
+      case 'highlights':
+        setHighlights(value);
+        break;
+
+      default:
+        console.warn(`No field in this name: ${name}`);
+    }
+  }, [])
+
   return <section className={s.wrapper}>
     <h2 className={s.heading}>Table Creation Form</h2>
     <form onSubmit={evt => handleSubmit(evt)} className={s.form}>
 
       <label className={s.fromElement}>
         <span className={s.captionField}>Rows "M"</span>
-        <input type="number" value={rows} name="rows" onChange={(evt) => setRows(evt.target.value)} />
+        <input type="number" value={rows} name="rows" onChange={handleChange} />
       </label>
 
       <label className={s.fromElement}>
         <span className={s.captionField}>Columns "N"</span>
-        <input type="number" value={columns} name="columns" onChange={(evt) => setColumns(evt.target.value)} />
+        <input type="number" value={columns} name="columns" onChange={handleChange} />
       </label>
 
       <label className={s.fromElement}>
         <span className={s.captionField}>Highlights "X"</span>
-        <input type="number" value={highlights} name="highlights" onChange={(evt) => setHighlights(evt.target.value)} />
+        <input type="number" value={highlights} name="highlights" onChange={handleChange} />
       </label>
 
       <Button variant="contained" type="submit">Create table</Button>
