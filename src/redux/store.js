@@ -1,13 +1,15 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 
 import myReducer from './reducers';
 
 const persistConfig = {
   key: 'table',
   storage,
-  whitelist: ['data', 'rows', 'columns', 'highlights'],
+  stateReconciler: hardSet,
+  whitelist: ['table', 'floorAmounts'],
 };
 
 const middleware = [
