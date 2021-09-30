@@ -1,0 +1,23 @@
+.wrapper {
+  padding: 25px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: rgb(255, 173, 173);
+}
+
+.heading {
+  margin-top: 0;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+}
+
+.fromElement {
+  margin-right: 25px;
+}
+
+.captionField {
+  margin-right: 10px;
+}
