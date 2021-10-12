@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,10 +8,12 @@ import actions from 'redux/actions';
 import DeleteRowButton from 'components/DeleteRowButton';
 import AddedRowButton from 'components/AddedRowButton';
 
-function SummaryCell({ data, id, isAddedRowButton, isDeleteRowButton }) {
+const SummaryCell = memo(({ data, id, isAddedRowButton, isDeleteRowButton }) => {
   const dispatch = useDispatch();
   const sum = useMemo(() => data.reduce((acc, el) => acc + el.amount, 0), [data]);
   const isButtonsCell = isAddedRowButton || isDeleteRowButton;
+
+  // console.log('render SummaryCell')
 
   const handleMouseOver = useCallback(() => {
     if (isButtonsCell) return;
@@ -38,7 +40,7 @@ function SummaryCell({ data, id, isAddedRowButton, isDeleteRowButton }) {
     {isDeleteRowButton && <DeleteRowButton id={id} />}
     {isAddedRowButton && <AddedRowButton />}
   </td>
-}
+})
 
 SummaryCell.propTypes = {
   oneRowData: PropTypes.array,

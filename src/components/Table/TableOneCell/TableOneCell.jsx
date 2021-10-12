@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,16 +6,18 @@ import s from './TableOneCell.module.css';
 import selectors from 'redux/selectors';
 import operations from 'redux/operations';
 
-function TableOneCell({ data, isSummary, index, rowId, highlights }) {
+const TableOneCell = memo(({ data, isSummary, index, rowId, highlights }) => {
   const dispatch = useDispatch();
   const tableBodyData = useSelector(selectors.getTableBodyData);
   const rowSumHover = useSelector(selectors.getRowHoverId);
+
+  // console.log('render TableOneCell')
 
   const handleClick = () => {
     dispatch(operations.updateCellData(data));
   }
 
-  const handleHover = (evt) => {
+  const handleHover = () => {
     if (isSummary) return;
     dispatch(operations.findFloorAmounts(data))
   }
@@ -42,7 +44,7 @@ function TableOneCell({ data, isSummary, index, rowId, highlights }) {
     onMouseOver={handleHover}
     onClick={handleClick}>{sum}
   </td>
-}
+})
 
 TableOneCell.propTypes = {
   data: PropTypes.shape({
