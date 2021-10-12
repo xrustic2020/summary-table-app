@@ -2,8 +2,6 @@ import { createAction } from '@reduxjs/toolkit';
 
 const writeTableParams = createAction('writeTableParams');
 
-const setFloorAmount = createAction('setFloorAmount');
-
 const setRowSumHoverId = createAction('setRowSumHoverId');
 
 const deleteRow = createAction('deleteRow');
@@ -26,7 +24,6 @@ const findFloorAmountsError = createAction('findFloorAmountsError');
 
 const actions = {
   writeTableParams,
-  setFloorAmount,
   setRowSumHoverId,
   deleteRow,
 

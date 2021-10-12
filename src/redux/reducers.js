@@ -3,7 +3,6 @@ import actions from './actions';
 
 const {
   writeTableParams,
-  setFloorAmount,
   setRowSumHoverId,
   deleteRow,
 
@@ -41,10 +40,6 @@ const data = createReducer([], {
   [addedTableRowSuccess]: (state, { payload }) => [...state, payload]
 });
 
-const hoverNumber = createReducer(null, {
-  [setFloorAmount]: (_, { payload }) => payload,
-})
-
 const rowHoverId = createReducer(null, {
   [setRowSumHoverId]: (_, { payload }) => payload,
 })
@@ -73,7 +68,6 @@ const loading = createReducer(false, {
 
 const contactsReducer = combineReducers({
   table: combineReducers({ data, params }),
-  hoverNumber,
   rowHoverId,
   floorAmounts,
   loading,

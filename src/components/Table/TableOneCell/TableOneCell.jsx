@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import s from './TableOneCell.module.css';
 import selectors from 'redux/selectors';
-import actions from 'redux/actions';
 import operations from 'redux/operations';
 
 function TableOneCell({ data, isSummary, index, rowId, highlights }) {
@@ -18,14 +17,7 @@ function TableOneCell({ data, isSummary, index, rowId, highlights }) {
 
   const handleHover = (evt) => {
     if (isSummary) return;
-    const amount = evt.target.innerHTML;
-    dispatch(actions.setFloorAmount(amount));
     dispatch(operations.findFloorAmounts(data))
-  }
-
-  const handleOutHover = () => {
-    if (isSummary) return;
-    dispatch(actions.setFloorAmount(null))
   }
 
   const calculate = useMemo(() => (index) => {
@@ -48,7 +40,6 @@ function TableOneCell({ data, isSummary, index, rowId, highlights }) {
     style={{ '--percent': sum }}
     className={classes()}
     onMouseOver={handleHover}
-    onMouseOut={handleOutHover}
     onClick={handleClick}>{sum}
   </td>
 }

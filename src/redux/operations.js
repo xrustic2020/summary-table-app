@@ -88,23 +88,13 @@ const findFloorAmounts = (data) => (dispatch, getState) => {
   dispatch(findFloorAmountsRequest());
   const highlights = getState().table.params.highlights;
   const tableBodyCells = getState().table.data;
-  const allCells = tableBodyCells.slice(0, tableBodyCells.length - 1).flatMap(el => el.rows);
-  const sortedArr = allCells.sort((a, b) => a.amount - b.amount);
-  const index = sortedArr.indexOf(data);
-  sortedArr.splice(index, 1);
-  const startIndex = index - Math.floor((highlights / 2));
 
-  function getResultAmountsArray() {
-    if (startIndex >= 0) {
-      const endIndex = (startIndex + highlights) <= sortedArr.length ? (startIndex + highlights) : sortedArr.length;
-      if (endIndex === sortedArr.length) return sortedArr.slice(highlights * -1);
-      return sortedArr.slice(startIndex, endIndex);
-    } else {
-      const endIndex = highlights <= sortedArr.length ? highlights : sortedArr.length;
-      return sortedArr.slice(0, endIndex);
-    }
-  }
-  const amounts = getResultAmountsArray();
+  const allCells = tableBodyCells.slice(0, tableBodyCells.length - 1).flatMap(el => el.rows);
+
+  const arrWithDiff = allCells.map((el) => ({ ...el, diff: Math.abs(data.amount - el.amount) }));
+  arrWithDiff.sort((a, b) => a.diff - b.diff).shift();
+  const amounts = arrWithDiff.slice(0, highlights);
+  arrWithDiff.forEach((el) => delete el.diff);
 
   try {
     dispatch(findFloorAmountsSuccess(amounts));
